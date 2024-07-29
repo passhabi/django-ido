@@ -41,3 +41,4 @@ urlpatterns = (
 
 if os.path.exists(os.path.join("ido", "settings_local.py")):
     urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))
+    
