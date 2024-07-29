@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Completed
+{% endblock %}
+
+{% block content %}
+    <style>
+        th p {
+            text-decoration: none;
+            font-weight: normal;
+            font-size: small;
+        }
+
+        th span {
+            text-decoration: line-through;
+            color: darkslategray;
+            font-weight: normal;
+        }
+
+    </style>
+    <div class="center">
+        {% if not completed_todos %}
+            <div class="alert alert-light" style="margin-bottom: 150px; margin-top: 100px; text-align: center" role="alert">
+                The list is Empty
+            </div>
+        {% else %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Completed Todo</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+
+                {% for todo in completed_todos %}
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            <span>{{ todo.title }}</span>
+                            <p>Completed on {{ todo.completion_time }}</p>
+                        </th>
+                        <th scope="col" style="text-align: end; font-size: small">
+                            <form method="post" action="{% url 'un_complete' %}{{ todo.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="list-group-item list-group-item-action">un-complete
+                                </button>
+                            </form>
+                        </th>
+                    </tr>
+                    </thead>
+                {% endfor %}
+
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

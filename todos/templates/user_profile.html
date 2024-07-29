@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    <style>
+        /* Custom styles for our box */
+        .personality-box {
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 100px;
+            position: relative;
+            width: 470px; /* Adjust as needed */
+            background-color: #f9f9f9; /* Box background color */
+            padding: 40px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+
+        }
+
+        .avatar {
+            position: absolute;
+            top: -55px; /* Move the avatar partially outside the box */
+            left: 80%;
+            transform: translateX(-50%);
+            width: 150px; /* Adjust avatar size */
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid #fff; /* Optional: Add a border around the avatar */
+        }
+
+        .personality-box i {
+            font-size: 14px;
+            color: #333;
+        }
+
+        i {
+            font-size: small;
+            color: grey;
+        }
+    </style>
+
+    <div class="center-align">
+        <div class="py-5">
+
+            {% if is_error_in_update %}
+                <div class="alert alert-success .alert-dismissible  fade show"
+                     style="width: 40%; margin-left: auto; margin-right: auto;" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" style="float: right;"
+                            aria-label="Close"></button>
+                    <div style="text-align: center;">Changes have been successfully made!</div>
+                </div>
+            {% endif %}
+
+
+            {#  Small profile box  #}
+            <div class="personality-box">
+                {% if user.usersetting.image_profile %}
+                    <img src="{{ user.usersetting.image_profile.url }}" alt="Your Avatar" class="avatar">
+                {% else %}
+                    <img src="/static/user.png" alt="Your Avatar" class="avatar">
+                {% endif %}
+                <h3 class="card-title">{{ user.first_name }} {{ user.last_name }}</h3>
+                <i> Joined on {{ user.date_joined }}</i>
+            </div>
+
+            <div class="center">
+                <h4 class="mb-3">Change Info:</h4>
+
+                <form class="needs-validation novalidate" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">First name</label>
+                            <input name="firstname" type="text" class="form-control {{ is_valid.firstname }}"
+                                   id="firstName"
+                                   placeholder="" value="{{ user.first_name }}"/>
+                            <div class="invalid-feedback">Valid first name is required.</div>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last name</label>
+                            <input name="lastname" type="text" class="form-control {{ is_valid.lastname }}"
+                                   id="lastName"
+                                   placeholder="" value="{{ user.last_name }}"/>
+                            <div class="invalid-feedback">Valid last name is required.</div>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input name="username" type="text" class="form-control {{ is_valid.username }}"
+                                   id="username"
+                                   placeholder="Username" value="{{ user.username }}" readonly/>
+                        </div>
+                        <div>
+                            <i>You can't change this field.</i>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                        <input name="email" type="email" class="form-control {{ is_valid.email }}" id="email"
+                               placeholder="you@example.com" value="{{ user.email }}"/>
+                        <div class="invalid-feedback">Please enter a valid email address for shipping updates.</div>
+                    </div>
+
+                    {# Upload image profile #}
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Image profile</label>
+                        <input name="image" class="form-control" type="file" id="image_file" accept="image/*"
+                               value="{{ user.image_profile }}">
+                        <div class="invalid-feedback">The image does not meet acceptable formats.</div>
+                        <i>Use image with 1:1 ratio (Square image).</i>
+                    </div>
+
+                    <br>
+                    {# password #}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password_label">Password</label>
+                            <input name="password1" type="password" class="form-control {{ is_valid.password1 }}"
+                                   placeholder="*********" aria-label="password"
+                                   id="password1"/>
+                            {% for error in is_valid.password_details %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="password2_label">Repeat Password</label>
+                            <input name="password2" type="password" class="form-control {{ is_valid.password2 }}"
+                                   id="password2" placeholder="********"/>
+                            <div class="invalid-feedback">Please repeat the password you just entered.</div>
+                        </div>
+                        <i>Leave it empty if you don't want to change the password!</i>
+                    </div>
+
+
+                    {# <hr class="mb-4"> #}
+                    <div class="col-12" style="margin-top: 20px;">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}
+    Editing {{ todo.title }}
+{% endblock %}
+{% block content %}
+    <style>
+        .btn-delete{
+            background-color: crimson;
+        }
+    </style>
+    {% if has_been_saved %}
+        <div class="alert alert-success .alert-dismissible  fade show"
+             style="width: 40%; margin-left: auto; margin-right: auto;" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" style="float: right;"
+                    aria-label="Close"></button>
+            <div style="text-align: center;">Changes have been successfuly made!</div>
+        </div>
+    {% endif %}
+
+    <div class="center">
+        <form class="container" method="post">
+            {% csrf_token %}
+            {# send back the cached path to the POST #}
+            <input type="hidden" name="previous_path" value="{{ request.previous_path }}"> 
+            <div class="mb-3">
+                <label for="titleInput" class="form-label">Title</label>
+                <input type="input" name="title" class="form-control" id="titleInput" value="{{ todo.title }}"
+                       required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="priority" class="form-label">Priority</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="priority" id="inlineRadio1"
+                           value="1" {{ todo.priority_radio_select1 }} />
+                    <label class="form-check-label" for="inlineRadio1">!</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="priority" id="inlineRadio2"
+                           value="2" {{ todo.priority_radio_select2 }} />
+                    <label class="form-check-label" for="inlineRadio2">!!</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="priority" id="inlineRadio3"
+                           value="3" {{ todo.priority_radio_select3 }} />
+                    <label class="form-check-label" for="inlineRadio3">!!!</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="priority" id="inlineRadio3"
+                           value="4" {{ todo.priority_radio_select4 }} />
+                    <label class="form-check-label" for="inlineRadio3">!!!!</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="descriptionsInput" class="form-label">Description</label>
+                <textarea type="input" name="description" class="form-control" id="descriptionsInput"
+                          aria-describedby="detailsHelp" rows="5">{{ todo.description }}</textarea>
+                <div id="detailsHelp" class="form-text">Either details or steps that are required to complete the
+                    action.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="dateInput" class="form-label">Due date</label>
+                        <div class="form-date">
+                            <input type="datetime-local" name="due_date" class="form-control" id="dateInput"
+                                   value="{{ todo.due_date|date:'Y-m-d\TH:i' }}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Category</label>
+                        <select name="category" class="form-select" id="inlineFormCustomSelectPref">
+                            <option value="" {{ todo.category_optionNone }}>...</option>
+                            <option value="1" {{ todo.category_option1 }}>One</option>
+                            <option value="2" {{ todo.category_option2 }}>Two</option>
+                            <option value="3" {{ todo.category_option3 }}>Three</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px">
+                <button type="submit" name="button" value="save_button" class="btn btn-secondary btn-block">
+                    Save
+                </button>
+                <button type="submit" name="button" value="complete_button" class="btn btn-primary btn-block">
+                    Mark as complete</button>
+                <button type="submit" name="button" value="delete"
+                        class="btn btn-secondary btn-block btn-delete">Delete
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

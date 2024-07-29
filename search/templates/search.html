@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block title %}
+    Search for {{ searched_query }}
+{% endblock %}
+
+{% block custom_css %}
+
+{% endblock %}
+{% block content %}
+
+    <style>
+
+        .center {
+            width: 800px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+
+        .priority-color-1 {
+            color: crimson;
+        }
+
+
+        .priority-color-2 {
+            color: darkorange;
+        }
+
+
+        .priority-color-3 {
+            color: royalblue;
+        }
+
+        .card {
+            border-radius: 15px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .list-menu a {
+            color: #343a40;
+        }
+
+        ul li a {
+            padding-left: 20px;
+        }
+
+        .selected {
+            color: blue;
+        }
+
+        .item {
+            padding-left: 20px;
+        }
+
+    </style>
+
+
+    <div class="container">
+        <div class="row center">
+
+            <aside class="col-4 mt-2">
+                <div class="card">
+                    <form class="flex-shrink-0 p-3 bg-white" method="get">
+                        <span class="fs-5 fw-semibold">Filters</span>
+                        <ul class="list-unstyled ps-0 mt-3">
+                            <li class="mb-1">
+                                <button type="button" class="btn btn-toggle align-items-center rounded collapsed"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#home-collapse" aria-expanded="true">
+                                    Status
+                                </button>
+                                <div class="collapse show" id="home-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li class="item">
+                                            <input type="checkbox" name='completed'
+                                                   class="form-check-input" {{ filter_config.completed }}/>
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Completed
+                                            </label>
+                                        </li>
+                                        <li class="item">
+                                            <input type="checkbox" name='un_completed'
+                                                   class="form-check-input" {{ filter_config.un_completed }}/>
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Un-completed
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mb-1">
+                                <button type="button" class="btn btn-toggle align-items-center rounded collapsed"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#dashboard-collapse" aria-expanded="false">
+                                    Priority
+                                </button>
+                                <div class="collapse" id="dashboard-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li class="item">
+                                            <input type="checkbox" name='p1'
+                                                   class="form-check-input" {{ filter_config.priority1 }}/>
+                                            <label class="form-check-label" for="flexCheckDefault">!</label>
+                                        </li>
+                                        <li class="item">
+                                            <input type="checkbox" name='p2'
+                                                   class="form-check-input" {{ filter_config.priority2 }}/>
+                                            <label class="form-check-label" for="flexCheckDefault">!!</label>
+                                        </li>
+                                        <li class="item">
+                                            <input type="checkbox" name='p3'
+                                                   class="form-check-input" {{ filter_config.priority3 }}/>
+                                            <label class="form-check-label" for="flexCheckDefault">!!!</label>
+                                        </li>
+                                        <li class="item">
+                                            <input type="checkbox" name='p4'
+                                                   class="form-check-input" {{ filter_config.priority4 }}/>
+                                            <label class="form-check-label" for="flexCheckDefault">!!!!</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+{#                            <li class="mb-1">#}
+{#                                <button type="button" class="btn btn-toggle align-items-center rounded collapsed"#}
+{#                                        data-bs-toggle="collapse"#}
+{#                                        data-bs-target="#orders-collapse" aria-expanded="false">#}
+{#                                    Category#}
+{#                                </button>#}
+{#                                <div class="collapse" id="orders-collapse">#}
+{#                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">#}
+{#                                        <li><a href="#" class="link-dark rounded">New</a></li>#}
+{#                                        <li><a href="#" class="link-dark rounded">Processed</a></li>#}
+{#                                        <li><a href="#" class="link-dark rounded">Shipped</a></li>#}
+{#                                        <li><a href="#" class="link-dark rounded">Returned</a></li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                            </li>#}
+                            <li class="border-top my-3"></li>
+                            <li class="mb-1">
+                                <button type="submit" class="btn btn-primary"
+                                        data-bs-target="#account-collapse" aria-expanded="false">
+                                    Filter
+                                </button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </aside>
+
+
+            <main class="col-8">
+                <div style="margin: 50px">
+                    <h3>Search result for <i><u>{{ searched_query }}</u></i>:</h3>
+                </div>
+                {% if not query_result %}
+                    <div style="text-align: center">
+                        <i style="font-size: large; font-weight: lighter;">No result matches the search</i>
+                    </div>
+                {% else %}
+                    <table class="table">
+                        {% for todo in query_result %}
+                            <thead>
+                            <tr>
+                                {% if todo.completion_time %}
+                                    <td>
+                                        <a href="{% url 'un_complete' todo.id %}" style="text-decoration: line-through;"
+                                           class="priority-color-{{ todo.priority }}">
+                                            {{ todo.title }}
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                {% else %}
+                                    <td>
+                                        <a href="{% url 'item' todo.id %}" class="priority-color-{{ todo.priority }}">
+                                            {{ todo.title }}
+                                        </a>
+                                    </td>
+                                    <td style="font-size: small;">
+                                        <i>{{ todo.due_date|date:'d M Y' }}</i>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            </thead>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </main>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

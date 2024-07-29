@@ -1,2 +1,2 @@
-# django-ido
-Todolist with Django
+# Django project
+A special, minimalist todolist with Django.

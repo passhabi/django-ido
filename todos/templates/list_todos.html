@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}
+    Todos
+{% endblock %}
+{% block content %}
+    <style>
+        .dropdown {
+            float: right;
+        }
+
+        .form-select-sm {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-overflow: '';
+            font-size: smaller;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 5px;
+            margin-left: 5px;
+        }
+
+        .btn {
+            font-size: x-small;
+            border-color: grey;
+            color: grey;
+            margin-left: 10px;
+        }
+
+        .btn.active {
+            border-color: grey;
+            color: grey;
+            background-color: white;
+        }
+
+        .btn.active:hover {
+            background-color: royalblue;
+            color: white;
+        }
+
+        span.badge.rounded-pill {
+            font-size: xx-small;
+            background-color: dodgerblue;
+        }
+
+        span.badge.rounded-pill.overdue {
+            background-color: grey;
+        }
+
+        .centered-text {
+            text-align: center;
+            margin-top: 100px;
+            font-size: large;
+            font-weight: lighter;
+            padding-bottom: 150px;
+        }
+
+        .todo-image-drawing {
+            margin-bottom: 20px;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        ul li a.priority-color-1 {
+            color: crimson;
+        }
+
+
+        ul li a.priority-color-2 {
+            color: darkorange;
+        }
+
+
+        ul li a.priority-color-3 {
+            color: royalblue;
+        }
+
+    </style>
+
+    <div class="center">
+        <div style="text-align: right; font-size: small">
+            {% if not todo_items %}
+                {% load static %}
+
+                <div class="centered-text">
+
+                    <div class="todo-image-drawing">
+                        <img src="{% static 'empty_todo.png' %}" alt="">
+                    </div>
+                    <i>You don't have any todo. </i><br>
+                    <i>Create one and give your 110%</i>
+                </div>
+            {% else %}
+                Sort by:
+                <form id="SortForm" class="dropdown" method="post" action="{% url 'reverse_the_order' %}"
+                      Onchange="let el=document.getElementById('SortForm');el.submit();">
+                    {% csrf_token %}
+                    <select class=" form-select-sm" id="sort-by" name="sort-by">
+                        {% if user_view_settings.is_descending %}
+                            <option value="ace">ace</option>
+                            <option value="dec" selected>dec</option>
+                        {% else %}
+                            <option value="ace" selected>ace</option>
+                            <option value="dec">dec</option>
+                        {% endif %}
+                    </select>
+                </form>
+                <form id="OrderForm" class="dropdown" method="post" action="{% url 'order_it_by' %}"
+                      Onchange="let el=document.getElementById('OrderForm');el.submit();">
+
+                    {% csrf_token %}
+                    {% load strip %}
+
+                    <select class=" form-select-sm" id="sort-by" name="orderby">
+                        {% for  order_db, order_readable in user_view_settings.ORDER_BY_CHOICES.items %}
+                            <option value="{{ order_readable }}"
+                                    {% if order_db ==  user_view_settings.order_by %} selected {% endif %}>
+                                {{ order_readable | strip:'_' }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+                </div>
+                <p style="text-align: end; font-size: smaller; padding-right: 5px;"></p>
+                <ul class="list-group">
+                    {% for todo in todo_items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a class="priority-color-{{ todo.priority }}"
+                               href="{% url 'item' todo.id %}"> {{ todo.title }} </a>
+
+                            {# bug: title can overflows #}
+                            <form method="post" action="{% url 'mark_as_complete' todo.id %}">
+                                {% csrf_token %}
+                                <div>
+                                    {% if todo.due_date %}
+                                        {% now "c" as today %}
+                                        {% if todo.due_date|date:"c" < today %}
+                                            <span class="badge rounded-pill overdue">{{ todo.due_date|date:'d M' }}</span>
+                                        {% else %}
+                                            <span class="badge rounded-pill">{{ todo.due_date|date:'d M' }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                        {#  <button type="button" class="btn btn-outline-primary">🗑️</button>#}
+                                        <button type="submit" class="btn btn-outline-primary">✓</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+    </div>
+{% endblock %}
