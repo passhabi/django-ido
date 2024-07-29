@@ -1,7 +1,7 @@
 name: deploy-chabokan
 on:
   push:
-    branches: [main]
+    branches: [stabel]
 jobs:
   deploy:
     runs-on: ubuntu-latest
