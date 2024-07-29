@@ -28,6 +28,8 @@ try:
     DEBUG = False
 
     ALLOWED_HOSTS = list(str(os.environ['ALLOWED_HOSTS']).split(' '))
+    CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+
 
 except KeyError:
     warnings.warn("env variable has not been set on the machine.")
