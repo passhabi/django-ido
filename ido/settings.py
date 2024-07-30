@@ -28,7 +28,7 @@ try:
     DEBUG = False
 
     ALLOWED_HOSTS = list(str(os.environ['ALLOWED_HOSTS']).split(' '))
-    CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+    CSRF_TRUSTED_ORIGINS = list(str(os.environ['CSRF_TRUSTED_ORIGINS']).split(' '))
 
 
 except KeyError:
