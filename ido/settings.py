@@ -32,7 +32,7 @@ try:
 
 
 except KeyError:
-    warnings.warn("env variable has not been set on the machine.")
+    warnings.warn("If your on deploy server, Env variables has not been set on the machine.")
 # Application definition
 
 INSTALLED_APPS = [
