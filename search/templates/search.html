@@ -10,10 +10,6 @@
 
     <style>
 
-        .center {
-            width: 800px;
-        }
-
         a {
             text-decoration: none;
             color: black;
@@ -59,10 +55,9 @@
     </style>
 
 
-    <div class="container">
-        <div class="row center">
-
-            <aside class="col-4 mt-2">
+    <div class="container pt-5 limit-width">
+        <div class="row">
+            <aside class="col-md-4 mt-2">
                 <div class="card">
                     <form class="flex-shrink-0 p-3 bg-white" method="get">
                         <span class="fs-5 fw-semibold">Filters</span>
@@ -123,21 +118,7 @@
                                     </ul>
                                 </div>
                             </li>
-{#                            <li class="mb-1">#}
-{#                                <button type="button" class="btn btn-toggle align-items-center rounded collapsed"#}
-{#                                        data-bs-toggle="collapse"#}
-{#                                        data-bs-target="#orders-collapse" aria-expanded="false">#}
-{#                                    Category#}
-{#                                </button>#}
-{#                                <div class="collapse" id="orders-collapse">#}
-{#                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">#}
-{#                                        <li><a href="#" class="link-dark rounded">New</a></li>#}
-{#                                        <li><a href="#" class="link-dark rounded">Processed</a></li>#}
-{#                                        <li><a href="#" class="link-dark rounded">Shipped</a></li>#}
-{#                                        <li><a href="#" class="link-dark rounded">Returned</a></li>#}
-{#                                    </ul>#}
-{#                                </div>#}
-{#                            </li>#}
+
                             <li class="border-top my-3"></li>
                             <li class="mb-1">
                                 <button type="submit" class="btn btn-primary"
@@ -149,9 +130,7 @@
                     </form>
                 </div>
             </aside>
-
-
-            <main class="col-8">
+            <main class="col-md-8">
                 <div style="margin: 50px">
                     <h3>Search result for <i><u>{{ searched_query }}</u></i>:</h3>
                 </div>
@@ -188,8 +167,6 @@
                     </table>
                 {% endif %}
             </main>
-
-
         </div>
     </div>
 {% endblock %}

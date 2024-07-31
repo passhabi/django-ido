@@ -46,7 +46,7 @@
             background-color: grey;
         }
 
-        .centered-text {
+        .emptylist {
             text-align: center;
             margin-top: 100px;
             font-size: large;
@@ -78,20 +78,19 @@
         }
 
     </style>
+    
+    {% load static %}
 
-    <div class="center">
-        <div style="text-align: right; font-size: small">
+    <div class="container pt-5 limit-width">
+        <div style="font-size: small">
             {% if not todo_items %}
-                {% load static %}
-
-                <div class="centered-text">
-
+            <div class="emptylist">
                     <div class="todo-image-drawing">
                         <img src="{% static 'empty_todo.png' %}" alt="">
                     </div>
                     <i>You don't have any todo. </i><br>
                     <i>Create one and give your 110%</i>
-                </div>
+            </div>
             {% else %}
                 Sort by:
                 <form id="SortForm" class="dropdown" method="post" action="{% url 'reverse_the_order' %}"
@@ -133,7 +132,7 @@
                             {# bug: title can overflows #}
                             <form method="post" action="{% url 'mark_as_complete' todo.id %}">
                                 {% csrf_token %}
-                                <div>
+                                <div style="width: 80px; text-align: right">
                                     {% if todo.due_date %}
                                         {% now "c" as today %}
                                         {% if todo.due_date|date:"c" < today %}

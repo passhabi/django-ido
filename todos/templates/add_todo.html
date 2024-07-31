@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Add todo
+  Add todo
 {% endblock %}
-
 
 {% block content %}
 
-  {% if added_todo %}
+  <div class="container">
+    {% if added_todo %}
+      <div class="alert alert-success .alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" style="float: right;" aria-label="Close"></button>
+        <div style="text-align: center;">
+          "{{ added_todo }}" has successfuly added. <a href="{% url 'list_todos' %}">Check it out!</a>
+        </div>
+      </div>
+    {% endif %}
 
-  <div class="alert alert-success .alert-dismissible  fade show" style="width: 40%; margin-left: auto; margin-right: auto;" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" style="float: right;" aria-label="Close"></button>
-    <div style="text-align: center;">"{{ added_todo }}" has successfuly added. <a href="{% url 'list_todos' %}">Check it out!</a></div>
-    </div>
-  {% endif %}
-
-  <div class="center">
-    <form class="container" method="post">
+    <form class="container pt-5 limit-width" method="post">
       {% csrf_token %}
 
       <div class="mb-3">
@@ -71,8 +71,8 @@
           </div>
         </div>
       </div>
-      <div style="margin: 20px auto 0 auto; width: 435px;">
-        <button type="submit" style="width: 435px;" class="btn btn-primary btn-lg btn-block">Add</button>
+      <div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Add</button>
       </div>
     </form>
   </div>
