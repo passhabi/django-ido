@@ -94,14 +94,14 @@
     }
   </style>
 
-  <div>
+  <div class="container">
     {% if is_error_in_update %}
       <div class="alert alert-success .alert-dismissible fade show" role="alert">
         <button type="button" class="btn-close" data-bs-dismiss="alert" style="float: right;" aria-label="Close"></button>
         <div style="text-align: center;">Changes have been successfully made!</div>
       </div>
     {% endif %}
-  </div>
+  
 
   <div class="container pt-5 limit-width">
     {# Small profile box #}
@@ -188,4 +188,5 @@
       </form>
     </div>
   </div>
+</div>
 {% endblock %}
