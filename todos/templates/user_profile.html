@@ -28,7 +28,7 @@
       border-radius: 50%;
       border: 2px solid #fff; /* Optional: Add a border around the avatar */
     }
-
+    
     @media (max-width: 825px) {
       .personality-box {
         padding: 35px;
@@ -40,8 +40,8 @@
         width: 100px; /* Adjust avatar size */
         height: 100px;
       }
-
-      .limit-width{
+    
+      .limit-width {
         padding: 40px;
       }
     }
@@ -58,29 +58,26 @@
         top: -35px; /* Move the avatar partially outside the box */
         width: 90px; /* Adjust avatar size */
         height: 90px;
-      } 
-
-      .limit-width{
+      }
+    
+      .limit-width {
         padding: 20px;
       }
     }
-
+    
     @media (max-width: 460px) {
-
       .personality-box {
         padding: 30px;
         padding-left: 20px;
         width: 320px; /* Adjust as needed */
       }
-      
-      .limit-width{
+    
+      .limit-width {
         padding: 10px;
       }
     }
-
-
+    
     @media (max-width: 60px) {
-
     }
     
     .personality-box i {
@@ -101,9 +98,9 @@
         <div style="text-align: center;">Changes have been successfully made!</div>
       </div>
     {% endif %}
-  
+  </div>
 
-  <div class="container pt-5 limit-width">
+  <div class="container limit-width" style="margin-top: 10%;">
     {# Small profile box #}
     <div class="personality-box">
       {% if user.usersetting.image_profile %}
@@ -188,5 +185,4 @@
       </form>
     </div>
   </div>
-</div>
 {% endblock %}
