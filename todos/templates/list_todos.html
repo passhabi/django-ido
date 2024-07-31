@@ -92,6 +92,7 @@
                     <i>Create one and give your 110%</i>
             </div>
             {% else %}
+            <div style="text-align: right;">
                 Sort by:
                 <form id="SortForm" class="dropdown" method="post" action="{% url 'reverse_the_order' %}"
                       Onchange="let el=document.getElementById('SortForm');el.submit();">
@@ -122,6 +123,7 @@
                     </select>
                 </form>
                 </div>
+            </div>
                 <p style="text-align: end; font-size: smaller; padding-right: 5px;"></p>
                 <ul class="list-group">
                     {% for todo in todo_items %}
@@ -132,7 +134,7 @@
                             {# bug: title can overflows #}
                             <form method="post" action="{% url 'mark_as_complete' todo.id %}">
                                 {% csrf_token %}
-                                <div style="width: 80px; text-align: right">
+                                <div style="width: 85px; text-align: right">
                                     {% if todo.due_date %}
                                         {% now "c" as today %}
                                         {% if todo.due_date|date:"c" < today %}
