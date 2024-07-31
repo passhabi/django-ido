@@ -8,7 +8,7 @@ def search(request, title_quest=None):
     if not title_quest:
         return redirect("homepage")
 
-    filter_hlp = FilterHelper(request.user, title_quest)  # singleton class
+    filter_hlp = FilterHelper(request.user, title_quest)
     config_dict = request.GET
 
     if config_dict:  # if it is not the first time asked for the query:

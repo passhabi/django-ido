@@ -109,10 +109,11 @@ class ProfileManager:
         if self.password or password2:
             if self.check_password(self.password, password2):
                 return None
+            
+            user.set_password(self.password)
 
         # Save all data simultaneously:
         user.usersetting.save()
-        user.set_password(self.password)
         user.save()
 
         # relog-in the user:
