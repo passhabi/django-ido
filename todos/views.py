@@ -55,7 +55,7 @@ def signup(request):
             context={"values": profile_mgr.get_profile_as_dict, 'is_valid': profile_mgr.get_html_validation_dict},
         )
 
-    if profile_mgr.dose_the_user_exists():
+    if profile_mgr.get_user_if_exist():
         return render(
             request,
             template_name="sign-up.html",

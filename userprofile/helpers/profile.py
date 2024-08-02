@@ -64,7 +64,7 @@ class ProfileManager:
 
         return False
 
-    def dose_the_user_exists(self):
+    def get_user_if_exist(self):
         """
         returns user if exists, else None.
         if user exists, it updates validation tags to user is-invalid.
