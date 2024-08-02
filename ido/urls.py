@@ -21,7 +21,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from todos.views import *  # todo only homepage is need it.
 import todos.urls
-import search.urls
 import os
 
 urlpatterns = (
@@ -33,7 +32,9 @@ urlpatterns = (
         path("sign-up/", signup, name="signup"),
         path("logout/", sign_out, name="logout"),
         path("profile/", profile, name="profile"),
-        path("search/", include(search.urls)),
+        
+        path('search/', search, name='search'),
+        path('search/<str:title_quest>/', search, name='search'),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
