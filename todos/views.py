@@ -7,9 +7,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from todos.forms import TodolistForm
 from todos.models import Todolist
-from .helpers.profile import ProfileManager
-from .helpers.filterhelper import FilterHelper
-
+from .helpers.filter import FilterHelper
+from userprofile.helpers.profile import ProfileManager
 
 # Create your views here.
 def homepage(request):
@@ -213,27 +212,7 @@ def make_as_completed(request, id):
 
 
 @login_required
-def profile(request):
-    if request.method == "GET":
-        return render(request, 'user_profile.html', context={'user': request.user})
-
-    # if it is a POST:
-    profile_mgr = ProfileManager(request)
-
-    user = profile_mgr.update_the_user(password2=request.POST.get('password2'))
-
-    if user:
-        return render(request, 'user_profile.html',
-                      context={'user': user,
-                               'is_error_in_update': True})
-    else:
-        return render(request, 'user_profile.html',
-                      context={'user': request.user,
-                               'is_valid': profile_mgr.get_html_validation_dict})
-
-
-@login_required
-def search(request, title_quest=None):
+def search_todo(request, title_quest=None):
     if not title_quest:
         return redirect("homepage")
 

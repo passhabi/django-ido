@@ -19,22 +19,25 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from todos.views import *  # todo only homepage is need it.
+from todos import views as todosveiw
 import todos.urls
+import userprofile.urls
 import os
+
 
 urlpatterns = (
     [
-        path("", homepage, name="homepage"),
+        path("", todosveiw.homepage, name="homepage"),
         path("todo/", include(todos.urls)),
-        path("admin/", admin.site.urls),
-        path("login/", signin, name="login"),
-        path("sign-up/", signup, name="signup"),
-        path("logout/", sign_out, name="logout"),
-        path("profile/", profile, name="profile"),
+        path("profile/", include(userprofile.urls)),
         
-        path('search/', search, name='search'),
-        path('search/<str:title_quest>/', search, name='search'),
+        path("admin/", admin.site.urls),
+        path("login/", todosveiw.signin, name="login"),
+        path("sign-up/", todosveiw.signup, name="signup"),
+        path("logout/", todosveiw.sign_out, name="logout"),
+        
+        path('search/', todosveiw.search_todo, name='search'),
+        path('search/<str:title_quest>/', todosveiw.search_todo, name='search'),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
